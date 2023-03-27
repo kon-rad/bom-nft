@@ -30,6 +30,7 @@ const alchemy = new Alchemy(settings);
 // Get the latest block
 const ChipScan = () => {
   const [bomPBT, setBomPBT] = useState<any>(null);
+  const [fetchingTokenId, setFetchingTokenId] = useState<boolean>(false);
   const [walletNfts, setWalletNfts] = useState<any>(null);
   const [blockHash, setBlockHash] = useState<any>(null);
   const [claimNFTTokenId, setClaimNFTTokenId] = useState<string>("");
@@ -81,13 +82,17 @@ const ChipScan = () => {
   }, [bomPBT]);
 
   const getNFTsOfWallet = async () => {
-    if (claimNFTTokenId) {
+    if (claimNFTTokenId || fetchingTokenId) {
       return;
     }
 
     if (address) {
-      const nfts = await alchemy.nft.getNftsForOwner(address);
+      setFetchingTokenId(true);
+      const nfts = await alchemy.nft.getNftsForOwner(address, {
+        contractAddresses: [process.env.NEXT_PUBLIC_CLAIM_ADDRESS],
+      });
       setWalletNfts(nfts);
+
       const ownedNFT: any = nfts.ownedNfts.find((nft: any) => {
         return (
           nft.contract.address?.toLowerCase() ==
@@ -96,6 +101,7 @@ const ChipScan = () => {
       });
       process.env.NEXT_PUBLIC_DEV_MODE === "true" &&
         console.log(`ownedNFT: ${JSON.stringify(ownedNFT)}`);
+      setFetchingTokenId(false);
 
       if (ownedNFT) {
         setClaimNFTTokenId(ownedNFT?.tokenId);
