@@ -167,6 +167,20 @@ Try again or contact us with this error message.
 
       process.env.NEXT_PUBLIC_DEV_MODE === "true" &&
         console.log(`sig: ${JSON.stringify(sig)}`);
+
+      alert(`
+
+calling mint with params: 
+claimNFTTokenId: ${claimNFTTokenId} 
+sig: ${sig} 
+currBlockNumber: ${currBlockNumber}
+    
+chipPublicKey: ${keys?.primaryPublicKeyRaw}
+user address: ${address}
+currBlockHash: ${currBlockHash}
+
+          `);
+
       mintPBT(sig, currBlockNumber);
     } catch (e: any) {
       console.error(`error: ${e.message}`);
@@ -212,10 +226,7 @@ claimNFTTokenId: ${claimNFTTokenId}
   const mintPBT = async (sig: string, currBlockNumber: string) => {
     process.env.NEXT_PUBLIC_DEV_MODE === "true" &&
       console.log(`mintPBT sig: ${sig} currBlockNumber: ${currBlockNumber}`);
-
-    const tx = await bomPBT?.mint(claimNFTTokenId, sig, currBlockNumber, {
-      gasLimit: 10000000,
-    });
+    const tx = await bomPBT?.mint(claimNFTTokenId, sig, currBlockNumber);
 
     process.env.NEXT_PUBLIC_DEV_MODE === "true" &&
       console.log("tx", JSON.stringify(tx));
@@ -296,7 +307,7 @@ claimNFTTokenId: ${claimNFTTokenId}
               fontFamily="texturina"
               _hover={{ bg: "#ff3864", color: "white" }}
             >
-              Scan Your PBT Chip
+              Scan your HALO Chip
             </Button>
           </Flex>
           <Flex height="100%" mt={2}>
