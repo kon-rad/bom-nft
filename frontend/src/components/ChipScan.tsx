@@ -168,18 +168,18 @@ Try again or contact us with this error message.
       process.env.NEXT_PUBLIC_DEV_MODE === "true" &&
         console.log(`sig: ${JSON.stringify(sig)}`);
 
-      //       alert(`
+      alert(`
 
-      // calling mint with params:
-      // claimNFTTokenId: ${claimNFTTokenId}
-      // sig: ${sig}
-      // currBlockNumber: ${currBlockNumber}
+      calling mint with params:
+      claimNFTTokenId: ${claimNFTTokenId}
+      sig: ${sig}
+      currBlockNumber: ${currBlockNumber}
 
-      // chipPublicKey: ${keys?.primaryPublicKeyRaw}
-      // user address: ${address}
-      // currBlockHash: ${currBlockHash}
+      chipPublicKey: ${keys?.primaryPublicKeyRaw}
+      user address: ${address}
+      currBlockHash: ${currBlockHash}
 
-      //           `);
+                `);
 
       mintPBT(sig, currBlockNumber);
     } catch (e: any) {
